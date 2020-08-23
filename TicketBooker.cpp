@@ -205,15 +205,10 @@ void setUpQueue(vector<Customer *> queue, Queue *queuePointer){
 }
 void input()
 {
-    Customer *ptr_queue1 = NULL;
-    Customer *ptr_queue2 = NULL;
-    Customer *previous_customer = NULL;
-    Customer *temp = NULL;
 
     //Set queue1 and queue2 to the first customer
     queue1->header = customer_in_queue1_vector[0];
     queue2->header = customer_in_queue2_vector[0];
-
     //////////////////////////////////////////////////////////////////////////////////////////////
     //Set up queue1
     setUpQueue(customer_in_queue1_vector, queue1);
