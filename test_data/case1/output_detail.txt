@@ -4,7 +4,7 @@ queue1
 queue2
 a1          20          20           0               5       0
 
-Time:60
+Time:6
 name arrival_time tickets_required running priority_number age/runs
 queue1
 queue2
