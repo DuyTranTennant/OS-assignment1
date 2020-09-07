@@ -283,8 +283,9 @@ void works()
     int time = 0;
     int k = 0;
     int j = 0;
-    working_one = addFront(customer_in_queue1_vector[0], working_one);
-    working_one = addFront(customer_in_queue1_vector[1], working_one);
+    printQueue(customer_in_queue2_vector[0]);
+    // working_one = addFront(customer_in_queue2_vector[0], working_one);
+    // working_one = addFront(customer_in_queue2_vector[1], working_one);
     printQueue(working_one);
 
 
