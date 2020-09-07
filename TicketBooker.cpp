@@ -53,6 +53,18 @@ public:
     int ready;
     int running; //Initialized in initial()
     int waiting;
+    Customer_result(){
+
+    };
+    void setResult(string n, int arrive, int endR, int readyR, int runningR, int waitingR)
+    {
+        name = n;
+        arrival = arrive;
+        end = endR;
+        ready = readyR;
+        running = runningR;
+        waiting = waitingR;
+    }
 };
 
 //To hold input
@@ -65,6 +77,17 @@ public:
     int age;
     int total_ticket;
     Customer *next = NULL;
+    Customer(){
+
+    };
+    Customer(string id, int arrive, int p, int a, int totalT){
+        customerID = id;
+        arrival_time = arrive;
+        priority = p;
+        age = a;
+        total_ticket = totalT;
+        next = NULL;
+    };
     Customer_result *corresponding = new Customer_result(); //Everything is initialized in initial()
 };
 
@@ -144,12 +167,7 @@ void initial()
         }
 
         //Initialize corresponding as well (Customer_result object)
-        ptr->corresponding->name = ptr->customerID;
-        ptr->corresponding->arrival = ptr->arrival_time;
-        ptr->corresponding->end = -1;
-        ptr->corresponding->ready = -1;
-        ptr->corresponding->running = 0;
-        ptr->corresponding->waiting = 0;
+        ptr->corresponding->setResult(ptr->customerID, ptr->arrival_time, -1, -1, 0, 0);
     }
 }
 
@@ -162,7 +180,8 @@ void printQueue(Customer *HeadQueue)
     }
 }
 //Grab the Customer object from vector , then arrange the object into a queue list (ordered)
-void setUpQueue(vector<Customer *> queue, Queue *queuePointer){
+void setUpQueue(vector<Customer *> queue, Queue *queuePointer)
+{
     Customer *ptr_queue1 = NULL;
     Customer *previous_customer = NULL;
     for (int i = 1; i < customer_in_queue1_vector.size(); i++)
@@ -216,10 +235,77 @@ void input()
     setUpQueue(customer_in_queue2_vector, queue2);
 }
 
-//Do queue1 and queue2 , then combine them into multilevel queue
+// Helper function:
+int calculateQuantum(int Priority){
+    return (10-Priority)*10;
+}
+int calculateNumberOfTicketToProcess(int time){
+    return time/5;
+}
+// push back to queue
+Customer *working_one = NULL;
+Customer *working_two = NULL;
+
+Customer *push_back_queue(Customer *newCustomer, Customer *root){
+    if(root == NULL){
+        root = newCustomer;
+        return root;
+    }
+    Customer *temp = new Customer();
+    temp = root;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = newCustomer;
+    return root;
+}
+
+Customer *pop(Customer *head){
+    Customer *temp;
+    temp = head->next;
+    return temp;
+}
 void works()
 {
+    Customer *queue_one_header = queue1->header;
+    Customer *queue_two_header = queue2->header;
 
+    int time = 0;
+    int k = 0;
+    int j = 0;
+    while (k < customer_in_queue1_vector.size() || j < customer_in_queue2_vector.size())
+    {
+        for (int i = 0; i < customer_in_queue1_vector.size(); i++)
+        {
+            if(customer_in_queue1_vector[i]->arrival_time == time){
+                customer_in_queue1_vector[i]->next = NULL;
+                working_one = push_back_queue(customer_in_queue1_vector[i], working_one);
+                k++;
+            }
+        }
+        for (int i = 0; i < customer_in_queue2_vector.size(); i++)
+        {
+            if(customer_in_queue2_vector[i]->arrival_time == time){
+                customer_in_queue2_vector[i]->next = NULL;
+                working_two = push_back_queue(customer_in_queue2_vector[i], working_two);
+                j++;
+            }
+        }
+        int tempTime = 0;
+        if(working_one->total_ticket < calculateQuantum(working_one->priority)/5){
+            tempTime = working_one->total_ticket*5;
+        }
+        cout <<"temp time: " << tempTime << endl;
+        cout << '\n';
+        cout << time;
+        cout << "\t Working 1: \n";
+        printQueue(working_one);
+        cout << "\t Working 2: \n";
+        printQueue(working_two);
+        time+=5;
+    }
+    
     //1) Promotion
 
     //2) Reposition first customer in Queue1
@@ -324,11 +410,8 @@ int main(int argc, char *argv[])
     }
 
     input(); // input data
-    cout << "Sorted Queue1" << endl;
-    printQueue(queue1->header);
-    cout << "Sorted Queue2" << endl;
-    printQueue(queue2->header);
-    //works();          // process data
+
+    works(); // process data
     //output();         // output result
     return 0;
 }
