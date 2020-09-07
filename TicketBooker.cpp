@@ -242,9 +242,16 @@ int calculateQuantum(int Priority){
 int calculateNumberOfTicketToProcess(int time){
     return time/5;
 }
-// push back to queue
-Customer *working_one = NULL;
-Customer *working_two = NULL;
+
+
+Customer *addFront(Customer *newCustomer, Customer *root){
+    if(root == NULL){
+        root = newCustomer;
+        return root;
+    }
+    newCustomer->next = root;
+    return newCustomer;
+}
 
 Customer *push_back_queue(Customer *newCustomer, Customer *root){
     if(root == NULL){
@@ -270,41 +277,49 @@ void works()
 {
     Customer *queue_one_header = queue1->header;
     Customer *queue_two_header = queue2->header;
-
+    // push back to queue
+    Customer *working_one = NULL;
+    Customer *working_two = NULL;
     int time = 0;
     int k = 0;
     int j = 0;
-    while (k < customer_in_queue1_vector.size() || j < customer_in_queue2_vector.size())
-    {
-        for (int i = 0; i < customer_in_queue1_vector.size(); i++)
-        {
-            if(customer_in_queue1_vector[i]->arrival_time == time){
-                customer_in_queue1_vector[i]->next = NULL;
-                working_one = push_back_queue(customer_in_queue1_vector[i], working_one);
-                k++;
-            }
-        }
-        for (int i = 0; i < customer_in_queue2_vector.size(); i++)
-        {
-            if(customer_in_queue2_vector[i]->arrival_time == time){
-                customer_in_queue2_vector[i]->next = NULL;
-                working_two = push_back_queue(customer_in_queue2_vector[i], working_two);
-                j++;
-            }
-        }
-        int tempTime = 0;
-        if(working_one->total_ticket < calculateQuantum(working_one->priority)/5){
-            tempTime = working_one->total_ticket*5;
-        }
-        cout <<"temp time: " << tempTime << endl;
-        cout << '\n';
-        cout << time;
-        cout << "\t Working 1: \n";
-        printQueue(working_one);
-        cout << "\t Working 2: \n";
-        printQueue(working_two);
-        time+=5;
-    }
+    printQueue(customer_in_queue2_vector[0]);
+    // working_one = addFront(customer_in_queue2_vector[0], working_one);
+    // working_one = addFront(customer_in_queue2_vector[1], working_one);
+    printQueue(working_one);
+
+
+    // while (k < customer_in_queue1_vector.size() || j < customer_in_queue2_vector.size())
+    // {
+    //     for (int i = 0; i < customer_in_queue1_vector.size(); i++)
+    //     {
+    //         if(customer_in_queue1_vector[i]->arrival_time == time){
+    //             customer_in_queue1_vector[i]->next = NULL;
+    //             working_one = push_back_queue(customer_in_queue1_vector[i], working_one);
+    //             k++;
+    //         }
+    //     }
+    //     for (int i = 0; i < customer_in_queue2_vector.size(); i++)
+    //     {
+    //         if(customer_in_queue2_vector[i]->arrival_time == time){
+    //             customer_in_queue2_vector[i]->next = NULL;
+    //             working_two = push_back_queue(customer_in_queue2_vector[i], working_two);
+    //             j++;
+    //         }
+    //     }
+    //     int tempTime = 0;
+    //     if(working_one->total_ticket < calculateQuantum(working_one->priority)/5){
+    //         tempTime = working_one->total_ticket*5;
+    //     }
+    //     cout <<"temp time: " << tempTime << endl;
+    //     cout << '\n';
+    //     cout << time;
+    //     cout << "\t Working 1: \n";
+    //     printQueue(working_one);
+    //     cout << "\t Working 2: \n";
+    //     printQueue(working_two);
+    //     time+=5;
+    // }
     
     //1) Promotion
 
