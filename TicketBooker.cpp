@@ -1,8 +1,8 @@
 /*
-created by:Guanhua Wang, student2
-ID:a1709743,   student2_Id(for undergraduate)
+created by:Sim Teck Lim, Duy Duc Tran
+ID:a1757976,   a1739535(for undergraduate)
 time:06.08.2020
-Contact Email:
+Contact Email: a1757976@student.adelaide.edu.au, a1739535@student.adelaide.edu.au
 Include int main(int argc,char *argv[])
 input: argv[1]
 output: Screen
